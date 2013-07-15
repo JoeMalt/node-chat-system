@@ -4,12 +4,12 @@ function mapHttpRequest(action)
 {
 	switch(action)
 	{
-		case sendMessage:
-		return require("./sendMessage.js").sendMessage;
+		case "sendMessage":
+		return require("./send_message.js").sendMessage;
 		break;
 		
-		case readMessage:
-		return require("./readMessage.js").readMessage;
+		case "readMessage":
+		return require("./read_message.js").readMessage;
 		break;
 		
 		default:

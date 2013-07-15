@@ -43,6 +43,10 @@ function route(pathname, request, response)
 	else
 	{
 		console.log("action_mapper returned valid function");
+	}
+	
+	//Finally: actually call the requested function
+	actionFunction();
 }
 
 
