@@ -46,7 +46,7 @@ function route(pathname, request, response)
 	}
 	
 	//Finally: actually call the requested function
-	actionFunction();
+	actionFunction(json_decoded_url_components, request, response);
 }
 
 

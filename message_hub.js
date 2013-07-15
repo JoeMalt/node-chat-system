@@ -4,12 +4,21 @@
 var messages = new Array();
 
 //Constructor for message object
-function message(username, text, timestamp, sender_id)
+function message(username, text, senderId, timestamp)
 {
+	try
+	{
+		this.id = messages[messages.length].id + 1;
+	}
+	catch (TypeError)
+	{
+		this.id = 1;
+	}
 	this.username = username;
-	this-text = text;
+	this.text = text;
 	this.timestamp = timestamp;
-	this.sender_id = sender_id;
+	this.senderId = senderId;
+	return this;
 }
 
 exports.message = message;
@@ -32,11 +41,22 @@ function registerIncomingMessageCallback(callback)
 }
 
 
-function inputMessage(message)
+function inputMessage(messageToInput)
 {
-	messages.push(message);
+	messages.push(messageToInput);
 	console.log("Message inputted with value: " + message);
-	console.log(messages);
+	console.log(messages[0]);
+}
+
+function getAllMessagesSinceId(idFrom)
+{
+	var toReturn = Array();
+	var arrayPointer = messages.length;
+	while(messages[arrayPointer].id >= idFrom)
+	{
+		toReturn.push(messages[arrayPointer])
+	}
+	return toReturn;
 }
 
 exports.message = message;
