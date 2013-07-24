@@ -1,4 +1,4 @@
-//Utilities for handling the query string
+//Utilities for parsing the query string
 
 var url = require("url");
 

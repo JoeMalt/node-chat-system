@@ -1,14 +1,15 @@
 //message.js is the hub of the system - messages go in, messages come out, that's what the Osaka seafood concern is all about
 //There is a single function to pass in a message, and then all the registered callbacks are fired to pass it back out
+var util = require("util");
 
-var messages = new Array();
+var messages_array = new Array();
 
 //Constructor for message object
 function message(username, text, senderId, timestamp)
 {
 	try
 	{
-		this.id = messages[messages.length].id + 1;
+		this.id = messages_array[messages_array.length - 1].id + 1;
 	}
 	catch (TypeError)
 	{
@@ -43,22 +44,54 @@ function registerIncomingMessageCallback(callback)
 
 function inputMessage(messageToInput)
 {
-	messages.push(messageToInput);
-	console.log("Message inputted with value: " + message);
-	console.log(messages[0]);
+	messages_array.push(messageToInput);
+	console.log("Message inputted with value: " + messageToInput);
+	console.log("");
+	console.log("First element in array messages_array: " + JSON.stringify(messages_array[0]));
+	console.log("Last element in array messages_array: " + JSON.stringify(messages_array[messages_array.length - 1]));
+	console.log("");
+	console.log("Full dump of messages_array: " + util.inspect(messages_array));
 }
 
 function getAllMessagesSinceId(idFrom)
 {
 	var toReturn = Array();
-	var arrayPointer = messages.length;
-	while(messages[arrayPointer].id >= idFrom)
+	var arrayPointer = messages_array.length - 1;
+	while(messages_array[arrayPointer].id >= idFrom)
 	{
-		toReturn.push(messages[arrayPointer])
+		toReturn.push(messages_array[arrayPointer])
+		arrayPointer = arrayPointer - 1;
 	}
 	return toReturn;
+	arrayPointer = null;
+	toReturn = null;
 }
+
+function getMessageById(id)
+{
+	var arrayPointer = messages_array.length - 1;
+	while(messages_array[arrayPointer].id != id)
+	{
+		arrayPointer = arrayPointer - 1;
+	}
+	
+	if(typeof messages_array[arrayPointer] != "undefined")
+	{
+		console.log("found valid message in array of type:" + typeof messages_array[arrayPointer]);
+		return messages_array[arrayPointer];
+	}
+	else
+	{
+		console.log("Failed to find valid message in array");
+		return false;
+	}
+	
+	arrayPointer = null;
+}
+	
+	
 
 exports.message = message;
 exports.registerIncomingMessageCallback = registerIncomingMessageCallback;
 exports.inputMessage = inputMessage;
+exports.getMessageById = getMessageById;

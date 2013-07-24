@@ -8,8 +8,8 @@ function mapHttpRequest(action)
 		return require("./send_message.js").sendMessage;
 		break;
 		
-		case "readMessage":
-		return require("./read_message.js").readMessage;
+		case "readMessageById":
+		return require("./read_message.js").readMessageById;
 		break;
 		
 		default:

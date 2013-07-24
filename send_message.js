@@ -7,8 +7,12 @@ function sendMessage(json_decoded_url_components, request, response)
 	var text = json_decoded_url_components[4].text;
 	var senderId = json_decoded_url_components[1].serverAssignedId
 	var timestamp = Math.round((new Date()).getTime() / 1000);
-	var messageToInput = messageHub.message(username, text, senderId, timestamp);
-	//console.log("Message object before submission: " + messageToInput);
+	var messageToInput = new messageHub.message(username, text, senderId, timestamp);
+	console.log("Message object before submission: " + JSON.stringify(messageToInput));
 	messageHub.inputMessage(messageToInput);
+	messageToInput = null;
+	//Now send the response
+	response.writeHead(200, "Request OK");
+	response.end();
 }
 exports.sendMessage = sendMessage;
