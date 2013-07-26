@@ -12,6 +12,10 @@ function mapHttpRequest(action)
 		return require("./read_message.js").readMessageById;
 		break;
 		
+		case "readMessagesSinceId":
+		return require("./read_message.js").readMessagesSinceId;
+		break;
+		
 		default:
 		return false;
 		break;

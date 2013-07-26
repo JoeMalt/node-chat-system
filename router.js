@@ -37,16 +37,17 @@ function route(pathname, request, response)
 	{
 		//error handling
 		console.log("action_mapper returned false");
-		response.writeHead(400, "Bad request");
+		response.writeHead(400, "Action not found");
 		response.end();
 	}
 	else
 	{
 		console.log("action_mapper returned valid function");
+		//Finally: actually call the requested function
+		actionFunction(json_decoded_url_components, request, response);
 	}
 	
-	//Finally: actually call the requested function
-	actionFunction(json_decoded_url_components, request, response);
+
 }
 
 

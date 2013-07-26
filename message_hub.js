@@ -41,7 +41,10 @@ function registerIncomingMessageCallback(callback)
 	return true;
 }
 
-
+/*
+ * input a message into the hub
+ * returns sequential ID of the message
+ */
 function inputMessage(messageToInput)
 {
 	messages_array.push(messageToInput);
@@ -51,12 +54,21 @@ function inputMessage(messageToInput)
 	console.log("Last element in array messages_array: " + JSON.stringify(messages_array[messages_array.length - 1]));
 	console.log("");
 	console.log("Full dump of messages_array: " + util.inspect(messages_array));
+	return messages_array[messages_array.length - 1].id;
 }
 
-function getAllMessagesSinceId(idFrom)
+function getMessagesSinceId(idFrom)
 {
+	//Walk backwards through the array until we get too far, then return what we've got.
 	var toReturn = Array();
 	var arrayPointer = messages_array.length - 1;
+	console.log("Value of arrayPointer: " + arrayPointer.toString());
+	console.log("Dump of messages_array: " + util.inspect(messages_array));
+	if (typeof messages_array[arrayPointer] == "undefined")
+	{
+		return false;
+	}
+	
 	while(messages_array[arrayPointer].id >= idFrom)
 	{
 		toReturn.push(messages_array[arrayPointer])
@@ -70,6 +82,11 @@ function getAllMessagesSinceId(idFrom)
 function getMessageById(id)
 {
 	var arrayPointer = messages_array.length - 1;
+	if (typeof messages_array[arrayPointer] == "undefined")
+	{
+		console.log("Could not find message with given ID");
+		return false;
+	}
 	while(messages_array[arrayPointer].id != id)
 	{
 		arrayPointer = arrayPointer - 1;
@@ -95,3 +112,4 @@ exports.message = message;
 exports.registerIncomingMessageCallback = registerIncomingMessageCallback;
 exports.inputMessage = inputMessage;
 exports.getMessageById = getMessageById;
+exports.getMessagesSinceId = getMessagesSinceId;
